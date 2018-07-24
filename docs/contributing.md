@@ -4,22 +4,40 @@ Welcome! If you're looking to help, this document is a great place to start!
 
 ## Building the project
 
-To build MicroMDM from source, you will need [Go 1.10](https://golang.org/dl/) or later installed.
+To build Moroz from source, you will need [Go 1.10](https://golang.org/dl/) or later installed.
 
 ``` bash
 # if GOPATH is unset:
 # export GOPATH=${HOME}/go
 
 # clone repo into GOPATH:
-git clone git@github.com:micromdm/micromdm $GOPATH/src/github.com/micromdm/micromdm
-cd $GOPATH/src/github.com/micromdm/micromdm
+git clone git@github.com:groob/moroz $GOPATH/src/github.com/groob/moroz
+cd $GOPATH/src/github.com/groob/moroz
 
 # download dependencies and build:
-make deps
-make
+dep ensure
+cd cmd/moroz; go install; cd -
+```
 
-# run
-./build/darwin/micromdm -h
+# Run
+
+`moroz`
+See `moroz -h` for a full list of options.
+
+``` bash
+Usage of moroz:
+  -configs string
+    	path to config folder (default "../../configs")
+  -event-logfile string
+    	path to file for saving uploaded events (default "/tmp/santa_events")
+  -http-addr string
+    	http address ex: -http-addr=:8080 (default ":8080")
+  -tls-cert string
+    	path to TLS certificate (default "server.crt")
+  -tls-key string
+    	path to TLS private key (default "server.key")
+  -version
+        print version information
 ```
 
 ## Git workflow
@@ -29,10 +47,10 @@ Example:
 
 ``` bash
 # clone repo into GOPATH:
-git clone git@github.com:micromdm/micromdm $GOPATH/src/github.com/micromdm/micromdm
+git clone git@github.com:groob/moroz.git $GOPATH/src/github.com/groob/moroz
 
 # add your remote/upstream
-git remote add groob git@github.com:groob/micromdm.git
+git remote add groob git@github.com:groob/moroz.git
 
 # update from origin/master
 git pull --rebase
@@ -59,27 +77,15 @@ A few helpful resources for getting started with Go:
 * [How to write Go code](https://golang.org/doc/code.html)
 * [GOPATH on the go wiki](https://github.com/golang/go/wiki/GOPATH)
 
-To build MicroMDM you will need to:
+To build Moroz you will need to:
 
 1. Download and install [`Go`](https://golang.org/dl/)
 2. Make a workspace directory and set the `GOPATH` as explained above.
 3. Install [`dep`](https://github.com/golang/dep) via the command `go get -u github.com/golang/dep/...`
 Note that `dep` is a very new project itself. If you're running trouble with the `dep ensure` command, ping @groob in the #micromdm channel on Slack.
-4. `mkdir -p $GOPATH/src/github.com/micromdm`
-5. `git clone git@github.com:micromdm/micromdm.git` the project into the above folder.
-The repo must always be in the folder `$GOPATH/src/github.com/micromdm/micromdm` even if you forked the project. Add a git remote to your fork to track upstream.
+4. `mkdir -p $GOPATH/src/github.com/groob`
+5. `git clone git@github.com:groob/moroz.git` the project into the above folder.
+The repo must always be in the folder `$GOPATH/src/github.com/groob/moroz` even if you forked the project. Add a git remote to your fork to track upstream.
 6. `dep ensure` The `dep` command will download and install all necessary dependencies for the project to compile.
 7. `go build` or `go install`
 8. File an issue or a pull request if the instructions are unclear or problems pop-up for you.
-
-## Important libraries and frameworks
-
-MicroMDM is built using a few popular Go packages outside the standard libraries. It might be worth checking them out.
-
-- [Go Kit](https://github.com/go-kit/kit#go-kit------) is a set of Go libraries used by MicroMDM to provide [logging](https://github.com/go-kit/kit/tree/master/log), and abstractions for building HTTP services. Its [examples](https://gokit.io/examples/) page is a good place to start.
-- [BoltDB](https://github.com/boltdb/bolt#getting-started) is a key/value database used to provide persistant storage for many components of MicroMDM.
-- [gorilla/mux](http://www.gorillatoolkit.org/pkg/mux) is used to provide routing for http handlers.
-
-## Other resources
-
-Also see [Contributing wiki page](https://github.com/micromdm/micromdm/wiki/Contributing) which has some additional notes on running, troubleshooting, and developing with MicroMDM.
